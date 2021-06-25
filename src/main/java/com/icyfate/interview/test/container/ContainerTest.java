@@ -1,6 +1,7 @@
 package com.icyfate.interview.test.container;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author sunbing
@@ -12,5 +13,7 @@ public class ContainerTest {
     public static void main(String[] args) {
         HashMap map = new HashMap();
         map.put(null,1);
+        System.out.println(Objects.equals(null,null));
+
     }
 }
