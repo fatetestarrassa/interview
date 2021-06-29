@@ -1,6 +1,7 @@
 package com.icyfate.interview.test.concurrency.ThreadPool;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 线程池好处：
@@ -35,7 +36,6 @@ public class ThreadPoolDemo {
         while (executor.isTerminated()){
 
         }
-
         System.out.println("所有线程执行结束");
     }
 
