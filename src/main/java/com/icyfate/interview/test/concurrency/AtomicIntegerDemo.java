@@ -1,6 +1,7 @@
 package com.icyfate.interview.test.concurrency;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 /**
  * AtomicInteger 自增原理：
@@ -18,19 +19,33 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2021/6/29 10:30
  */
 public class AtomicIntegerDemo {
-    private AtomicInteger count = new AtomicInteger();
-
-    public void increment(){
-        count.incrementAndGet();
-    }
-
-    public int getCount(){
-        return count.get();
-    }
-
     public static void main(String[] args) {
-        AtomicIntegerDemo demo = new AtomicIntegerDemo();
-        demo.increment();
-        System.out.println(demo.getCount());
+        int tempValue = 0;
+        AtomicInteger i = new AtomicInteger(0);
+
+        tempValue = i.getAndSet(3);//设置并返回原值
+        System.out.println("tempValue = " + tempValue + ",i = " + i);
+        tempValue = i.getAndIncrement();//自增1并返回原值
+        System.out.println("tempValue = " + tempValue + ",i = " + i);
+        tempValue = i.getAndAdd(5);//增加n并返回原值
+        System.out.println("tempValue = " + tempValue + ",i = " + i);
+
+        testAtomicIntegerArray();
+    }
+
+    public static void testAtomicIntegerArray(){
+        int tempValue = 0;
+        int[] arr = {1,2,4,5,3};
+        AtomicIntegerArray array = new AtomicIntegerArray(arr);
+        for(int i=0;i<array.length();i++){
+            System.out.println(array.get(i));
+        }
+        tempValue = array.getAndSet(0,2);
+        System.out.println("tempValue = " + tempValue + ",array = " + array);
+        tempValue = array.getAndIncrement(0);
+        System.out.println("tempValue = " + tempValue + ",array = " + array);
+        tempValue = array.getAndAdd(0,5);
+        System.out.println("tempValue = " + tempValue + ",array = " + array);
+
     }
 }
