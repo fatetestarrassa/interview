@@ -49,13 +49,16 @@ public class ClassLoadDemo {
      *  初始化 调用<clinit>()方法(<clinit>()方法是在编译后自动生成的，并且线程安全，所以类只能被加载一次)，以下五种情况才会初始化类
      *      1.当遇到 new 、getstatic、putstatic 或invokestatic这四条字节码指令时，会初始化
      *          new 指令：创建实例对象
-     *          getstatic指令：访问类的静态变量
+     *          getstatic指令：访问类的静态变量0
      *          putstatic指令：给静态变量赋值
      *          invokestatic指令：调用类的静态方法
      *      2.适用java.lang.reflect包的方法进行反射调用时，如class.forName();  new Instance();
      *      3.初始化一个类，如果它的父类还未被初始化时
      *      4.虚拟机启动，用户需要指定一个要执行的主类，虚拟机会先初始化这个类
      *      5.MethodHandle 和 VarHandle 可以看作是轻量级的反射调用机制，而要想使用这 2 个调用， 就必须先使用 findStaticVarHandle 来初始化要调用的类。
+     *
+     *      <clinit>()方法做了什么？
+     *          顺序执行静态变量的显示初始化和静态代码块的执行
      *
      */
 
