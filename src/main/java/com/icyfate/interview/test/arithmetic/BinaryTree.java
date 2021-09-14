@@ -39,4 +39,7 @@ package com.icyfate.interview.test.arithmetic;
  * @since 2021/6/22 15:25
  */
 public class BinaryTree {
+    public static void main(String[] args) {
+        
+    }
 }
