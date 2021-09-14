@@ -40,6 +40,6 @@ package com.icyfate.interview.test.arithmetic;
  */
 public class BinaryTree {
     public static void main(String[] args) {
-        
+
     }
 }
