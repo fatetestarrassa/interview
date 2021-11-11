@@ -235,6 +235,33 @@ public class BinaryTreeDemo {
         return resultList.toArray(new Integer[resultList.size()]);
     }
 
+    public static void levelTraverse(TreeNode root){
+        List<List<Integer>> resultList = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            List<Integer> levelList = new ArrayList<>();
+            for(int i=0;i<size;i++){
+                TreeNode node = queue.poll();
+                levelList.add(node.getValue());
+                TreeNode leftNode = node.getLeft();
+                if(leftNode != null){
+                    queue.offer(leftNode);
+                }
+                TreeNode rightNode = node.getRight();
+                if(rightNode != null){
+                    queue.offer(rightNode);
+                }
+            }
+            resultList.add(levelList);
+        }
+
+        System.out.println(resultList);
+
+    }
+
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         TreeNode node2 = new TreeNode(2);
@@ -267,5 +294,8 @@ public class BinaryTreeDemo {
         System.out.println("递归后序遍历：" + Arrays.toString(recursiveResultList.toArray(new Integer[recursiveResultList.size()])));
         System.out.println("非递归后序遍历模板解法实现：" + Arrays.toString(postOrderTraverseByTemplate(root)));
         System.out.println("非递归后序遍历模板常规实现：" + Arrays.toString(postOrderTraverse(root)));
+
+        System.out.println("层次遍历：");
+        levelTraverse(root);
     }
 }
