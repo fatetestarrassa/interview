@@ -261,7 +261,9 @@ public class BinarySearchTree {
 
         int deleteVal = 6;
         tree.delete(deleteVal);
+
         System.out.println("删除节点" + deleteVal + "后结果：" + Arrays.toString(BinaryTreeDemo.inOrderTraverseByTemplate(tree.getRoot())));
+        BinaryTreeDemo.levelTraverse(tree.getRoot());
     }
 
 

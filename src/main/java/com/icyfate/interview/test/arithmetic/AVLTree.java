@@ -80,6 +80,91 @@ public class AVLTree {
 
     }
 
+    public TreeNode findMinNode(){
+        return findMinNode(root);
+    }
+
+    private TreeNode findMinNode(TreeNode node){
+        if(node.getLeft() == null)
+            return node;
+
+        return findMinNode(node.getLeft());
+    }
+
+    public void delete(int value){
+        if(root == null){
+            return;
+        }
+        //处理删除根节点的情况
+        if(root.getValue() == value){
+            if(root.getRight() == null){
+                root = root.getLeft();
+            } else {
+                TreeNode node = findMinNode(root.getRight());
+                node.setLeft(root.getLeft());
+                root = root.getRight();
+            }
+            return;
+        }
+
+        delete(null,root,value);
+    }
+
+    private void delete(TreeNode parentNode,TreeNode node, int value){
+
+        if(node.getValue() > value){
+            //node值大于要删除的值，循环查找左子树
+            delete(node,node.getLeft(),value);
+            return;
+        }
+        if(node.getValue() < value){
+            //node值小于要删除的值，循环查找右子树
+            delete(node,node.getRight(),value);
+            return;
+        }
+
+        boolean isLeft = parentNode.getValue() > node.getValue();
+        //node值等于要删除的值，是要删除的节点
+        if(node.getRight() == null && node.getLeft() == null){
+            //如果node是叶子节点：直接删除
+            if(isLeft){
+                //说明node是parent的左子节点，设置左子节点为null即可
+                parentNode.setLeft(null);
+            } else {
+                parentNode.setRight(null);
+            }
+        } else if(node.getLeft() != null && node.getRight() != null){
+            /**
+             * 如果node左右子节点都存在,查询当前节点的右子树的最小节点(此处思考为什么是右子树的最小节点，其实保证
+             *      只移动一个节点就完成删除操作，因为此节点必然大于所有左子树节点，又小于其他右子树节点。同理查询
+             *      左子树的最大节点也行)
+             */
+
+            TreeNode minNode = findMinNode(node.getRight());
+            delete(minNode.getValue());//删除最小节点，此节点必定是叶子元素，会直接移除
+            if(isLeft){
+                parentNode.setLeft(minNode);
+            } else {
+                parentNode.setRight(minNode);
+            }
+            minNode.setLeft(node.getLeft());
+            minNode.setRight(node.getRight());
+
+        } else {
+            //有一个子节点:把node唯一子节点放在node的位置
+            TreeNode childNode = node.getLeft() == null?node.getRight():node.getLeft();
+            if(isLeft){
+                parentNode.setLeft(childNode);
+            } else {
+                parentNode.setRight(childNode);
+            }
+
+        }
+
+
+        balance(parentNode);
+    }
+
     public static void main(String[] args) {
         //左左型
         AVLTree llTree = new AVLTree();
@@ -91,7 +176,7 @@ public class AVLTree {
         llTree.insert(4);
         llTree.insert(1);
         System.out.println("左左型平衡结果：");
-        BinaryTreeDemo.levelTraverse(llRoot);
+        BinaryTreeDemo.levelTraverse(llTree.getRoot());
         //左右型
         AVLTree lrTree = new AVLTree();
         TreeNode lrRoot = new TreeNode(5);
@@ -102,7 +187,7 @@ public class AVLTree {
         lrTree.insert(1);
         lrTree.insert(4);
         System.out.println("左右型平衡结果：");
-        BinaryTreeDemo.levelTraverse(lrRoot);
+        BinaryTreeDemo.levelTraverse(lrTree.getRoot());
         //右右型
         AVLTree rrTree = new AVLTree();
         TreeNode rrRoot = new TreeNode(2);
@@ -113,7 +198,7 @@ public class AVLTree {
         rrTree.insert(5);
         rrTree.insert(6);
         System.out.println("右右型平衡结果：");
-        BinaryTreeDemo.levelTraverse(rrRoot);
+        BinaryTreeDemo.levelTraverse(rrTree.getRoot());
         //右左型
         AVLTree rlTree = new AVLTree();
         TreeNode rlRoot = new TreeNode(2);
@@ -124,7 +209,18 @@ public class AVLTree {
         rlTree.insert(6);
         rlTree.insert(3);
         System.out.println("右左型平衡结果：");
-        BinaryTreeDemo.levelTraverse(rlRoot);
+        BinaryTreeDemo.levelTraverse(rlTree.getRoot());
+
+        //删除节点
+        AVLTree delTree = new AVLTree();
+        TreeNode delRoot = new TreeNode(4);
+        delTree.setRoot(delRoot);
+        delTree.insert(5);
+        delTree.insert(2);
+        delTree.insert(1);
+        delTree.insert(3);
+        delTree.delete(5);
+        BinaryTreeDemo.levelTraverse(delTree.getRoot());
 
     }
 }
